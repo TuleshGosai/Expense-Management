@@ -3,6 +3,9 @@
   position: relative;
 
   .app-sider {
+    overflow: hidden;
+    transition: width 0.2s, min-width 0.2s;
+
     .logo {
       height: 64px;
       line-height: 64px;
@@ -12,7 +15,13 @@
       font-size: 18px;
     }
 
-    // Mobile: overlay drawer
+    // Contain menu so selected state never bleeds into content
+    .ant-menu {
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    // Mobile: overlay drawer – only when open
     &.app-sider-open-mobile {
       position: fixed !important;
       left: 0;
@@ -20,6 +29,21 @@
       bottom: 0;
       z-index: 1001;
       height: 100vh !important;
+      min-width: 260px !important;
+      width: 260px !important;
+    }
+  }
+
+  // When sider is collapsed (width 0), ensure it doesn't capture or show content
+  .ant-layout-sider-collapsed.app-sider {
+    min-width: 0 !important;
+    width: 0 !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+
+    * {
+      pointer-events: none !important;
+      visibility: hidden !important;
     }
   }
 
@@ -80,10 +104,86 @@
     background: #f0f2f5;
     min-height: calc(100vh - 64px);
     overflow-x: hidden;
+    position: relative;
+    z-index: 1;
   }
 }
 
-// Mobile: show hamburger, compact header
+// Mobile bottom navigation bar (replaces sidebar)
+.app-bottom-nav {
+  display: none;
+}
+
+@media (max-width: 991px) {
+  .app-layout-mobile {
+    .app-content {
+      padding-bottom: calc(96px + env(safe-area-inset-bottom, 0)); // space above bottom nav so content isn't covered
+      box-sizing: border-box;
+    }
+  }
+
+  .app-bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    min-height: 64px;
+    height: calc(64px + env(safe-area-inset-bottom, 0));
+    padding-bottom: env(safe-area-inset-bottom, 0);
+    background: #fff;
+    border-top: 1px solid #f0f0f0;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 8px;
+    z-index: 100;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.06);
+  }
+
+  .app-bottom-nav-item {
+    flex: 1;
+    max-width: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 48px;
+    border: none;
+    background: transparent;
+    border-radius: 12px;
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.45);
+    transition: background-color 0.2s, color 0.2s;
+    padding: 0;
+
+    .app-bottom-nav-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      font-size: 20px;
+      background: #f5f5f5;
+      color: rgba(0, 0, 0, 0.45);
+      transition: background-color 0.2s, color 0.2s;
+    }
+
+    &:active {
+      opacity: 0.85;
+    }
+  }
+
+  .app-bottom-nav-item-active {
+    color: #1890ff;
+
+    .app-bottom-nav-icon {
+      background: #1890ff;
+      color: #fff;
+    }
+  }
+}
+
+// Mobile: show hamburger (desktop), compact header
 @media (max-width: 991px) {
   .app-layout {
     .hamburger-btn {
@@ -98,6 +198,11 @@
 
     .app-content {
       padding: 16px;
+    }
+
+    // Keep extra bottom space when using bottom nav so content isn't covered
+    &.app-layout-mobile .app-content {
+      padding-bottom: calc(96px + env(safe-area-inset-bottom, 0));
     }
 
     .user-dropdown .user-name {

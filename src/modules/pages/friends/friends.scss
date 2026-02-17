@@ -22,9 +22,53 @@
   .simplified-amount { font-weight: 600; color: #1890ff; }
 }
 
+// Mobile: stack list so email, balance and actions don't overlap
 @media (max-width: 768px) {
-  .friends-page .balance-cell {
-    margin-top: 8px;
-    display: block;
+  .friends-page {
+    .ant-list-item {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0;
+    }
+
+    .ant-list-item-meta {
+      width: 100%;
+      min-width: 0;
+    }
+
+    .ant-list-item-meta-content {
+      overflow: hidden;
+      min-width: 0;
+    }
+
+    .ant-list-item-meta-title,
+    .ant-list-item-meta-description {
+      word-break: break-word;
+    }
+
+    // Balance always on its own row below meta, never beside email
+    .balance-cell {
+      margin-top: 8px;
+      display: block;
+      width: 100%;
+      order: 1;
+    }
+
+    .ant-list-item-action {
+      margin-top: 12px;
+      margin-left: 0;
+      width: 100%;
+      padding-top: 12px;
+      border-top: 1px solid #f0f0f0;
+      order: 2;
+    }
+
+    .ant-list-item-action li {
+      padding: 0 12px 0 0;
+    }
+
+    .ant-list-item-action li:last-child {
+      padding-right: 0;
+    }
   }
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory, useLocation, Switch, Route } from 'react-router-dom';
-import { EsLayout, EsMenu, EsDropdown, EsAvatar, EsSpace, EsButton } from 'components';
+import { EsLayout, EsMenu, EsDropdown, EsAvatar, EsSpace, EsButton, EsTooltip } from 'components';
 import {
   TeamOutlined,
   UnorderedListOutlined,
@@ -11,6 +11,7 @@ import {
   ApartmentOutlined,
   MenuOutlined,
   ProfileOutlined,
+  HomeOutlined,
 } from 'components/icons';
 import { useSelector } from 'react-redux';
 import { selectCurrentUser } from 'apis/user/user.selectors';
@@ -66,13 +67,13 @@ const MainLayout = () => {
   };
 
   const baseMenuItems = [
-    { key: '/app', path: '/app', icon: <UnorderedListOutlined />, label: 'Dashboard' },
-    { key: '/app/expenses', path: '/app/expenses', icon: <UnorderedListOutlined />, label: 'Expenses' },
-    { key: '/app/add-expense', path: '/app/add-expense', icon: <PlusCircleOutlined />, label: 'Add Expense' },
-    { key: '/app/friends', path: '/app/friends', icon: <TeamOutlined />, label: 'Friends' },
-    { key: '/app/groups', path: '/app/groups', icon: <ApartmentOutlined />, label: 'Groups' },
+    { key: '/app', path: '/app', icon: <UnorderedListOutlined />, iconMobile: <HomeOutlined />, label: 'Dashboard' },
+    { key: '/app/expenses', path: '/app/expenses', icon: <UnorderedListOutlined />, iconMobile: <UnorderedListOutlined />, label: 'Expenses' },
+    { key: '/app/add-expense', path: '/app/add-expense', icon: <PlusCircleOutlined />, iconMobile: <PlusCircleOutlined />, label: 'Add Expense' },
+    { key: '/app/friends', path: '/app/friends', icon: <TeamOutlined />, iconMobile: <TeamOutlined />, label: 'Friends' },
+    { key: '/app/groups', path: '/app/groups', icon: <ApartmentOutlined />, iconMobile: <ApartmentOutlined />, label: 'Groups' },
   ];
-  const adminMenuItems = user?.role === 'admin' ? [{ key: '/app/users', path: '/app/users', icon: <UserOutlined />, label: 'Users' }] : [];
+  const adminMenuItems = user?.role === 'admin' ? [{ key: '/app/users', path: '/app/users', icon: <UserOutlined />, iconMobile: <UserOutlined />, label: 'Users' }] : [];
   const menuItems = [...baseMenuItems, ...adminMenuItems];
 
   const userMenu = (
@@ -105,50 +106,44 @@ const MainLayout = () => {
   };
 
   return (
-    <EsLayout className="app-layout">
-      {/* Mobile sidebar backdrop */}
-      {isMobile && !collapsed && (
-        <div
-          className="sider-backdrop"
-          role="button"
-          tabIndex={0}
-          onClick={() => setCollapsed(true)}
-          onKeyDown={(e) => e.key === 'Escape' && setCollapsed(true)}
-          aria-label="Close menu"
-        />
+    <EsLayout className={`app-layout ${isMobile ? 'app-layout-mobile' : ''}`}>
+      {/* Desktop: sidebar; Mobile: no sidebar, use bottom nav instead */}
+      {!isMobile && (
+        <Sider
+          breakpoint="lg"
+          collapsedWidth={0}
+          collapsed={collapsed}
+          onCollapse={setCollapsed}
+          width={260}
+          className="app-sider"
+          trigger={null}
+        >
+          <div className="logo">Expense</div>
+          <EsMenu
+            theme="dark"
+            selectedKeys={[selectedKey]}
+            mode="inline"
+            items={menuItems.map((m) => ({
+              key: m.key,
+              icon: m.icon,
+              label: m.label,
+              onClick: () => onMenuClick(m.path),
+            }))}
+          />
+        </Sider>
       )}
-      <Sider
-        breakpoint="lg"
-        collapsedWidth={0}
-        collapsed={collapsed}
-        onCollapse={setCollapsed}
-        width={260}
-        className={`app-sider ${isMobile && !collapsed ? 'app-sider-open-mobile' : ''}`}
-        trigger={null}
-      >
-        <div className="logo">Expense</div>
-        <EsMenu
-          theme="dark"
-          selectedKeys={[selectedKey]}
-          mode="inline"
-          items={menuItems.map((m) => ({
-            key: m.key,
-            icon: m.icon,
-            label: m.label,
-            onClick: () => onMenuClick(m.path),
-          }))}
-        />
-      </Sider>
       <EsLayout className="app-main-wrap">
         <Header className="app-header">
           <div className="header-left">
-            <EsButton
-              type="text"
-              className="hamburger-btn"
-              icon={<MenuOutlined />}
-              onClick={() => setCollapsed(!collapsed)}
-              aria-label="Toggle menu"
-            />
+            {!isMobile && (
+              <EsButton
+                type="text"
+                className="hamburger-btn"
+                icon={<MenuOutlined />}
+                onClick={() => setCollapsed(!collapsed)}
+                aria-label="Toggle menu"
+              />
+            )}
             <span className="header-title">Expense Management</span>
           </div>
           <EsDropdown overlay={userMenu} placement="bottomRight">
@@ -172,6 +167,28 @@ const MainLayout = () => {
           </Switch>
         </Content>
       </EsLayout>
+      {/* Mobile bottom navigation bar */}
+      {isMobile && (
+        <nav className="app-bottom-nav" aria-label="Main navigation">
+          {menuItems.map((m) => {
+            const isSelected = selectedKey === m.key;
+            const Icon = m.iconMobile || m.icon;
+            return (
+              <EsTooltip key={m.key} title={m.label} placement="top">
+                <button
+                  type="button"
+                  className={`app-bottom-nav-item ${isSelected ? 'app-bottom-nav-item-active' : ''}`}
+                  onClick={() => history.push(m.path)}
+                  aria-label={m.label}
+                  aria-current={isSelected ? 'page' : undefined}
+                >
+                  <span className="app-bottom-nav-icon">{Icon}</span>
+                </button>
+              </EsTooltip>
+            );
+          })}
+        </nav>
+      )}
     </EsLayout>
   );
 };

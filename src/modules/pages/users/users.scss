@@ -22,3 +22,53 @@
     color: #1890ff;
   }
 }
+
+// Mobile: stack list items vertically so meta and actions don't overlap
+@media (max-width: 768px) {
+  .users-page {
+    .ant-list-item {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .ant-list-item-meta {
+      width: 100%;
+      min-width: 0;
+    }
+
+    .ant-list-item-meta-content {
+      overflow: hidden;
+      min-width: 0;
+    }
+
+    .ant-list-item-meta-title {
+      word-break: break-word;
+    }
+
+    .ant-list-item-meta-description {
+      word-break: break-word;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .ant-list-item-action {
+      margin-top: 0;
+      margin-left: 0;
+      width: 100%;
+      padding-top: 8px;
+      border-top: 1px solid #f0f0f0;
+    }
+
+    .ant-list-item-action li {
+      padding: 0 8px 0 0;
+    }
+
+    .ant-list-item-action li:last-child {
+      padding-right: 0;
+    }
+  }
+}

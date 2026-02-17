@@ -18,4 +18,5 @@ export {
   PlusOutlined,
   MailOutlined,
   ProfileOutlined,
+  HomeOutlined,
 } from '@ant-design/icons';
