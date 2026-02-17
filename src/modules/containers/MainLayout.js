@@ -146,11 +146,19 @@ const MainLayout = () => {
             )}
             <span className="header-title">Expense Management</span>
           </div>
-          <EsDropdown overlay={userMenu} placement="bottomRight">
-            <EsSpace className="user-dropdown" style={{ cursor: 'pointer' }}>
-              <EsAvatar icon={<UserOutlined />} src={null} />
-              <span className="user-name">{user?.name || 'User'}</span>
-            </EsSpace>
+          <EsDropdown
+            overlay={userMenu}
+            placement="bottomRight"
+            trigger={['click']}
+            getPopupContainer={() => document.body}
+            overlayClassName="app-user-dropdown-overlay"
+          >
+            <span className="user-dropdown-trigger" onClick={(e) => e.stopPropagation()}>
+              <EsSpace className="user-dropdown" style={{ cursor: 'pointer' }}>
+                <EsAvatar icon={<UserOutlined />} src={null} />
+                <span className="user-name">{user?.name || 'User'}</span>
+              </EsSpace>
+            </span>
           </EsDropdown>
         </Header>
         <Content className="app-content">
