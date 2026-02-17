@@ -72,25 +72,6 @@ A React-based expense splitting app (similar to Splitwise) to split expenses wit
 | `npm run lint`     | Run ESLint on `src`           |
 | `npm run lint:fix` | ESLint with auto-fix          |
 
-## Deploy on Vercel (React + API in one project)
-
-This project is set up so you can deploy **both** the React app and the JSON Server API on Vercel.
-
-1. **Connect the repo** to [Vercel](https://vercel.com) (GitHub/GitLab/Bitbucket).
-2. **Build settings** (usually auto-detected from `vercel.json`):
-   - **Build Command:** `npm run build`
-   - **Output Directory:** `build`
-   - **Install Command:** `npm install`
-3. **Deploy.** Vercel will:
-   - Build the React app into `build/`.
-   - Deploy the serverless API from `api/index.js`, which runs json-server against `db.json`. All `/api/*` requests (e.g. `/api/users`, `/api/expenses`) are handled by this API.
-4. **Optional:** To use an external API instead of the built-in one, set the env var **`REACT_APP_API_URL`** in the Vercel project to your API base URL (e.g. `https://your-json-server.railway.app`). The app will then call that URL instead of `/api`.
-
-**Note:** The serverless API uses the same `db.json` as local development. Data is not persisted across serverless invocations unless you use an external database; for a real backend, replace the API with your own or set `REACT_APP_API_URL`. If the API fails on Vercel (e.g. `json-server` not found), move `json-server` from `devDependencies` to `dependencies` in `package.json`.
-
-**If you get 401 Unauthorized when opening the deployment:**  
-Vercel is returning 401, not your app. Turn off **Deployment Protection** so the site is public: **Project → Settings → Deployment Protection**. For **Production**, set **Vercel Authentication** to **Off** (or **Only Preview** if you want production public). If your project is under a **Team**, check **Team Settings → Deployment Protection** as well. Then open the site in an **incognito/private** window to avoid cached 401.
-
 ## Project Structure
 
 ```
