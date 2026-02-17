@@ -37,7 +37,7 @@
       "id": 1
     },
     {
-      "name": "abhishek",
+      "name": "Abhishek",
       "email": "abhi@gmail.com",
       "userId": "user-1",
       "id": 2
@@ -49,7 +49,7 @@
       "id": 3
     },
     {
-      "name": "umesh",
+      "name": "Umesh",
       "email": "umesh@gmail.com",
       "userId": "user-1",
       "id": 4
@@ -66,7 +66,7 @@
       "userId": "user-1",
       "paidBy": "user-1",
       "amount": 1000,
-      "description": "dinner",
+      "description": "Dinner at restaurant ",
       "splitType": "equal",
       "contributions": [
         {
@@ -81,7 +81,7 @@
       "userId": "user-1",
       "paidBy": "user-1",
       "amount": 5000,
-      "description": "baroda trip",
+      "description": "Goa trip",
       "splitType": "equal",
       "contributions": [
         {
@@ -100,7 +100,7 @@
       "userId": "user-1",
       "paidBy": 1,
       "amount": 600,
-      "description": "lunch",
+      "description": "Lunch",
       "splitType": "equal",
       "contributions": [
         {
@@ -118,11 +118,43 @@
       ],
       "createdAt": "2026-02-17T06:28:54.663Z",
       "id": 4
+    },
+    {
+      "userId": "user-1",
+      "paidBy": 3,
+      "amount": 7265,
+      "description": "Trip to Mount Abu",
+      "splitType": "unequal",
+      "contributions": [
+        {
+          "friendId": "user-1",
+          "amount": 500
+        },
+        {
+          "friendId": 2,
+          "amount": 1500
+        },
+        {
+          "friendId": 3,
+          "amount": 2500
+        },
+        {
+          "friendId": 4,
+          "amount": 1265
+        },
+        {
+          "friendId": 1,
+          "amount": 1500
+        }
+      ],
+      "createdAt": "2026-02-17T10:46:30.242Z",
+      "groupId": 2,
+      "id": 5
     }
   ],
   "groups": [
     {
-      "name": "trip",
+      "name": "Trip",
       "userId": "user-1",
       "memberIds": [
         1
