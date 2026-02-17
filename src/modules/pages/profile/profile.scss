@@ -1,0 +1,25 @@
+.profile-page {
+  .page-title {
+    margin-bottom: 20px;
+    font-weight: 600;
+    font-size: 1.5rem;
+  }
+
+  .profile-card {
+    max-width: 560px;
+
+    .profile-role-badge {
+      text-transform: capitalize;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: #f0f0f0;
+      font-size: 12px;
+    }
+
+    .profile-actions {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid #f0f0f0;
+    }
+  }
+}

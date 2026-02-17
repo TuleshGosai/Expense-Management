@@ -1,9 +1,10 @@
 import React, { Suspense } from 'react';
+import PropTypes from 'prop-types';
 import { HashRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { getAuthToken } from 'helpers/storageHandlers';
 import Authentication from 'modules/pages/authentication';
 import MainLayout from 'modules/containers/MainLayout';
-import { Spin } from 'antd';
+import { EsSpin } from 'components';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   const token = getAuthToken();
@@ -17,9 +18,15 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
   );
 };
 
+PrivateRoute.propTypes = {
+  component: PropTypes.elementType.isRequired,
+  path: PropTypes.string,
+  exact: PropTypes.bool,
+};
+
 const AppRouter = () => (
   <HashRouter>
-    <Suspense fallback={<Spin size="large" style={{ display: 'block', margin: '40px auto' }} />}>
+    <Suspense fallback={<EsSpin size="large" style={{ display: 'block', margin: '40px auto' }} />}>
       <Switch>
         <Route exact path="/login" component={Authentication} />
         <PrivateRoute path="/app" component={MainLayout} />

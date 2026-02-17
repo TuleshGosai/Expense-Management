@@ -23,4 +23,34 @@
     font-size: 12px;
     margin-bottom: 16px;
   }
+
+  .auth-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 12px;
+  }
+
+  .auth-link {
+    background: none;
+    border: none;
+    color: #667eea;
+    cursor: pointer;
+    font-size: 13px;
+    padding: 0;
+  }
+
+  .auth-link:hover {
+    color: #764ba2;
+    text-decoration: underline;
+  }
+}
+
+.auth-forgot-email {
+  margin-top: 8px;
+  a {
+    color: #667eea;
+    font-weight: 500;
+  }
 }

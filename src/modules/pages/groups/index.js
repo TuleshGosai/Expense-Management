@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
-import { Card, List, Modal, Form, Input, Button, Select, message, Popconfirm } from 'antd';
-import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { EsCard, EsList, EsModal, EsForm, EsInputBase, EsButton, EsSelect, message, EsPopconfirm } from 'components';
+import { PlusOutlined, EditOutlined, DeleteOutlined } from 'components/icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { getUserProfile } from 'helpers/storageHandlers';
 import { getDisplayName } from 'helpers/displayUtils';
@@ -21,7 +22,7 @@ const GroupsPage = () => {
   const groups = useSelector((state) => state.Groups?.list || []);
   const friends = useSelector((state) => state.Friends?.list || []);
   const expenses = useSelector((state) => state.Expenses?.list || []);
-  const [form] = Form.useForm();
+  const [form] = EsForm.useForm();
 
   useEffect(() => {
     if (user?.id) {
@@ -75,16 +76,16 @@ const GroupsPage = () => {
     <div className="groups-page">
       <div className="page-header">
         <h1 className="page-title">Groups</h1>
-        <Button type="primary" icon={<PlusOutlined />} onClick={openCreateModal}>Create Group</Button>
+        <EsButton type="primary" icon={<PlusOutlined />} onClick={openCreateModal}>Create Group</EsButton>
       </div>
-      <Card>
+      <EsCard>
         <p style={{ marginBottom: 16, color: '#666', fontSize: 13 }}>
           Track expenses and balances per group. Create a group, add friends as members. When adding an expense, choose a group to track per-group balances.
         </p>
         {groups.length === 0 ? (
           <p style={{ color: '#999' }}>No groups yet. Create a group and add friends as members.</p>
         ) : (
-          <List
+          <EsList
             itemLayout="vertical"
             dataSource={groups}
             renderItem={(g) => {
@@ -93,28 +94,28 @@ const GroupsPage = () => {
               const youOweList = Object.entries(youOwe).filter(([, amt]) => amt > 0);
               const theyOweYouList = Object.entries(theyOweYou).filter(([, amt]) => amt > 0);
               return (
-                <List.Item
+                <EsList.Item
                   key={g.id}
                   actions={[
-                    <Button type="link" size="small" icon={<EditOutlined />} onClick={() => openEditModal(g)}>Edit</Button>,
-                    <Popconfirm key="del" title="Delete this group? All expenses in this group will be deleted." onConfirm={() => handleDeleteGroup(g.id)} okText="Delete" okButtonProps={{ danger: true }}>
-                      <Button type="link" size="small" danger icon={<DeleteOutlined />}>Delete</Button>
-                    </Popconfirm>,
+                    <EsButton type="link" size="small" icon={<EditOutlined />} onClick={() => openEditModal(g)}>Edit</EsButton>,
+                    <EsPopconfirm key="del" title="Delete this group? All expenses in this group will be deleted." onConfirm={() => handleDeleteGroup(g.id)} okText="Delete" okButtonProps={{ danger: true }}>
+                      <EsButton type="link" size="small" danger icon={<DeleteOutlined />}>Delete</EsButton>
+                    </EsPopconfirm>,
                   ]}
                 >
-                  <List.Item.Meta title={g.name} description={Array.isArray(g.memberIds) ? g.memberIds.length + ' member(s)' : '0 members'} />
+                  <EsList.Item.Meta title={g.name} description={Array.isArray(g.memberIds) ? g.memberIds.length + ' member(s)' : '0 members'} />
                   <div className="group-detail">
                     <h4 style={{ marginTop: 12, marginBottom: 8 }}>Expenses in this group ({groupExpenses.length})</h4>
                     {groupExpenses.length === 0 ? (
                       <p style={{ color: '#999', fontSize: 13 }}>No expenses yet.</p>
                     ) : (
-                      <List
+                      <EsList
                         size="small"
                         dataSource={groupExpenses.slice(0, 10)}
                         renderItem={(item) => (
-                          <List.Item style={{ cursor: 'pointer' }} onClick={() => history.push('/app/expenses/' + item.id)}>
+                          <EsList.Item style={{ cursor: 'pointer' }} onClick={() => history.push('/app/expenses/' + item.id)}>
                             {item.description} — ${Number(item.amount).toFixed(2)}
-                          </List.Item>
+                          </EsList.Item>
                         )}
                       />
                     )}
@@ -130,24 +131,30 @@ const GroupsPage = () => {
                       </>
                     )}
                   </div>
-                </List.Item>
+                </EsList.Item>
               );
             }}
           />
         )}
-      </Card>
-      <Modal title={editingGroup ? 'Edit Group' : 'Create Group'} visible={modalVisible} onCancel={() => { setModalVisible(false); setEditingGroup(null); }} onOk={handleAddGroup} confirmLoading={loading} destroyOnClose>
-        <Form form={form} layout="vertical">
-          <Form.Item name="name" label="Group name" rules={[{ required: true }]}>
-            <Input placeholder="e.g. Weekend Trip" />
-          </Form.Item>
-          <Form.Item name="members" label="Add friends">
-            <Select mode="multiple" placeholder="Select friends" options={friendOptions} />
-          </Form.Item>
-        </Form>
-      </Modal>
+      </EsCard>
+      <EsModal title={editingGroup ? 'Edit Group' : 'Create Group'} visible={modalVisible} onCancel={() => { setModalVisible(false); setEditingGroup(null); }} onOk={handleAddGroup} confirmLoading={loading} destroyOnClose>
+        <EsForm form={form} layout="vertical">
+          <EsForm.Item name="name" label="Group name" rules={[{ required: true }]}>
+            <EsInputBase placeholder="e.g. Weekend Trip" />
+          </EsForm.Item>
+          <EsForm.Item name="members" label="Add friends">
+            <EsSelect mode="multiple" placeholder="Select friends" options={friendOptions} />
+          </EsForm.Item>
+        </EsForm>
+      </EsModal>
     </div>
   );
+};
+
+GroupsPage.propTypes = {
+  history: PropTypes.object,
+  location: PropTypes.object,
+  match: PropTypes.object,
 };
 
 export default GroupsPage;

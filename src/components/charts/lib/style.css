@@ -1,0 +1,9 @@
+.chart-no-data {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chart-no-data .ant-empty-description {
+  color: #999;
+}

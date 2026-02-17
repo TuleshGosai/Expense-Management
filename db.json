@@ -2,9 +2,31 @@
   "users": [
     {
       "id": "user-1",
-      "email": "demo@expense.com",
-      "password": "demo123",
-      "name": "Demo User"
+      "email": "tuleshgosai@expense.com",
+      "password": "Admin@123",
+      "name": "Tulesh Gosai",
+      "role": "admin"
+    },
+    {
+      "name": "Chirag Mavadiya",
+      "email": "chirag@gmail.com",
+      "role": "user",
+      "password": "mavadiya@123",
+      "id": "gE-j1Xr"
+    },
+    {
+      "name": "abhishek ghumaliya",
+      "email": "abhi@gmail.com",
+      "password": "Abhi@123",
+      "role": "user",
+      "id": "w8DDMZR"
+    },
+    {
+      "name": "raj gosai",
+      "email": "gosaituleshn@gmail.com",
+      "password": "raj123",
+      "role": "user",
+      "id": "M8BGac7"
     }
   ],
   "friends": [
@@ -19,46 +41,29 @@
       "email": "abhi@gmail.com",
       "userId": "user-1",
       "id": 2
+    },
+    {
+      "name": "Shivam",
+      "email": "shivam@gmail.com",
+      "userId": "user-1",
+      "id": 3
     }
   ],
   "expenses": [
     {
       "userId": "user-1",
       "paidBy": "user-1",
-      "amount": 1080,
+      "amount": 1000,
       "description": "dinner",
       "splitType": "equal",
       "contributions": [
         {
           "friendId": 1,
-          "amount": 1080
+          "amount": 1000
         }
       ],
       "createdAt": "2026-02-16T13:33:47.231Z",
       "id": 1
-    },
-    {
-      "userId": "user-1",
-      "paidBy": 2,
-      "amount": 2200,
-      "description": "lunch",
-      "splitType": "equal",
-      "contributions": [
-        {
-          "friendId": "user-1",
-          "amount": 733.3333333333334
-        },
-        {
-          "friendId": 1,
-          "amount": 733.3333333333334
-        },
-        {
-          "friendId": 2,
-          "amount": 733.3333333333334
-        }
-      ],
-      "createdAt": "2026-02-16T13:34:47.818Z",
-      "id": 2
     },
     {
       "userId": "user-1",
@@ -78,6 +83,29 @@
       ],
       "createdAt": "2026-02-16T13:37:03.249Z",
       "id": 3
+    },
+    {
+      "userId": "user-1",
+      "paidBy": 1,
+      "amount": 600,
+      "description": "lunch",
+      "splitType": "equal",
+      "contributions": [
+        {
+          "friendId": "user-1",
+          "amount": 200
+        },
+        {
+          "friendId": 1,
+          "amount": 200
+        },
+        {
+          "friendId": 2,
+          "amount": 200
+        }
+      ],
+      "createdAt": "2026-02-17T06:28:54.663Z",
+      "id": 4
     }
   ],
   "groups": [

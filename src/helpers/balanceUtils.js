@@ -1,4 +1,30 @@
 /**
+ * Recalculate contribution amounts when the expense total amount is updated.
+ * Preserves split ratios; adjusts so sum equals newAmount (handles rounding).
+ * @param {number} oldAmount - Previous total amount
+ * @param {number} newAmount - New total amount
+ * @param {Array<{ friendId, amount }>} contributions - Existing contributions
+ * @returns {Array<{ friendId, amount }>} New contributions with updated amounts
+ */
+export function recalculateContributionsForNewAmount(oldAmount, newAmount, contributions) {
+  const list = Array.isArray(contributions) ? contributions : [];
+  if (list.length === 0) return [];
+  const oldTotal = Number(oldAmount) || 0;
+  if (oldTotal <= 0) return list.map((c) => ({ ...c, amount: Number(newAmount) / list.length }));
+
+  const newTotal = Number(newAmount) || 0;
+  const scaled = list.map((c) => {
+    const amt = Number(c.amount) || 0;
+    const newAmt = (amt / oldTotal) * newTotal;
+    return { ...c, amount: Math.round(newAmt * 100) / 100 };
+  });
+  const sum = scaled.reduce((s, c) => s + c.amount, 0);
+  const diff = Math.round((newTotal - sum) * 100) / 100;
+  if (diff !== 0 && scaled.length > 0) scaled[0].amount = Math.round((scaled[0].amount + diff) * 100) / 100;
+  return scaled;
+}
+
+/**
  * Compute balances from expenses for a user.
  * Returns: { youOwe: { friendId: amount }, theyOweYou: { friendId: amount } }
  * contributions: [{ friendId, amount }] per expense (positive = friend owes payer)

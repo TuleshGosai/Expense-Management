@@ -1,0 +1,7 @@
+.es-button {
+  &.es-button--loading,
+  &.es-button--disabled {
+    pointer-events: none;
+    opacity: 0.65;
+  }
+}

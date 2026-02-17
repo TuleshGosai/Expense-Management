@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Card, List, Modal, Form, Input, Button, message, Popconfirm, Tooltip } from 'antd';
-import { UserAddOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import PropTypes from 'prop-types';
+import { EsCard, EsList, EsModal, EsForm, EsInputBase, EsButton, message, EsPopconfirm, EsTooltip } from 'components';
+import { UserAddOutlined, EditOutlined, DeleteOutlined } from 'components/icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { getUserProfile, setDeletedFriendName } from 'helpers/storageHandlers';
 import { computeBalancesFromExpenses, simplifyBalances } from 'helpers/balanceUtils';
@@ -18,7 +19,7 @@ const FriendsList = () => {
   const friends = useSelector((state) => state.Friends?.list || []);
   const expenses = useSelector((state) => state.Expenses?.list || []);
   const { youOwe, theyOweYou } = computeBalancesFromExpenses(expenses, user?.id);
-  const [form] = Form.useForm();
+  const [form] = EsForm.useForm();
 
   useEffect(() => {
     if (user?.id) {
@@ -84,68 +85,68 @@ const FriendsList = () => {
     <div className="friends-page">
       <div className="page-header">
         <h1 className="page-title">Friends</h1>
-        <Button type="primary" icon={<UserAddOutlined />} onClick={openCreateModal}>
+        <EsButton type="primary" icon={<UserAddOutlined />} onClick={openCreateModal}>
           Add Friend
-        </Button>
+        </EsButton>
       </div>
-      <Card>
-        <List
+      <EsCard>
+        <EsList
           itemLayout="horizontal"
           dataSource={friends}
           renderItem={(friend) => {
             const { owe, owed } = getBalance(friend.id);
             return (
-              <List.Item
+              <EsList.Item
                 actions={[
-                  <Button type="link" size="small" icon={<EditOutlined />} onClick={() => openEditModal(friend)}>Edit</Button>,
+                  <EsButton type="link" size="small" icon={<EditOutlined />} onClick={() => openEditModal(friend)}>Edit</EsButton>,
                   hasPendingBalance(friend.id) ? (
-                    <Tooltip key="del" title="Settle up first to remove this friend">
+                    <EsTooltip key="del" title="Settle up first to remove this friend">
                       <span>
-                        <Button type="link" size="small" danger icon={<DeleteOutlined />} disabled>Delete</Button>
+                        <EsButton type="link" size="small" danger icon={<DeleteOutlined />} disabled>Delete</EsButton>
                       </span>
-                    </Tooltip>
+                    </EsTooltip>
                   ) : (
-                    <Popconfirm
+                    <EsPopconfirm
                       key="del"
                       title="Remove this friend?"
                       onConfirm={() => handleDeleteFriend(friend)}
                       okText="Remove"
                       okButtonProps={{ danger: true }}
                     >
-                      <Button type="link" size="small" danger icon={<DeleteOutlined />}>Delete</Button>
-                    </Popconfirm>
+                      <EsButton type="link" size="small" danger icon={<DeleteOutlined />}>Delete</EsButton>
+                    </EsPopconfirm>
                   ),
                 ]}
               >
-                <List.Item.Meta title={friend.name} description={friend.email} />
+                <EsList.Item.Meta title={friend.name} description={friend.email} />
                 <div className="balance-cell">
                   {owe > 0 && <span className="you-owe">You owe $ {owe.toFixed(2)}</span>}
                   {owed > 0 && <span className="they-owe">Owes you $ {owed.toFixed(2)}</span>}
                   {owe === 0 && owed === 0 && <span className="settled">Settled up</span>}
                 </div>
-              </List.Item>
+              </EsList.Item>
             );
           }}
         />
         {simplified.length > 0 && (
           <>
             <h4 style={{ marginTop: 24, marginBottom: 12 }}>Simplified (fewer transactions)</h4>
-            <List
+            <EsList
               size="small"
               dataSource={simplified}
               renderItem={(s) => (
-                <List.Item>
+                <EsList.Item>
                   <span>{getName(s.from)}</span>
                   <span className="simplified-arrow"> → </span>
                   <span>{getName(s.to)}</span>
                   <span className="simplified-amount"> $ {s.amount.toFixed(2)}</span>
-                </List.Item>
+                </EsList.Item>
               )}
             />
           </>
         )}
-      </Card>
-      <Modal
+      </EsCard>
+      <EsModal
         title={editingFriend ? 'Edit Friend' : 'Add Friend'}
         visible={modalVisible}
         onCancel={() => { setModalVisible(false); setEditingFriend(null); }}
@@ -153,17 +154,23 @@ const FriendsList = () => {
         confirmLoading={loading}
         destroyOnClose
       >
-        <Form form={form} layout="vertical">
-          <Form.Item name="name" label="Name" rules={[{ required: true }]}>
-            <Input placeholder="Friend's name" />
-          </Form.Item>
-          <Form.Item name="email" label="Email" rules={[{ required: true }, { type: 'email' }]}>
-            <Input placeholder="Friend's email" />
-          </Form.Item>
-        </Form>
-      </Modal>
+        <EsForm form={form} layout="vertical">
+          <EsForm.Item name="name" label="Name" rules={[{ required: true }]}>
+            <EsInputBase placeholder="Friend's name" />
+          </EsForm.Item>
+          <EsForm.Item name="email" label="Email" rules={[{ required: true }, { type: 'email' }]}>
+            <EsInputBase placeholder="Friend's email" />
+          </EsForm.Item>
+        </EsForm>
+      </EsModal>
     </div>
   );
+};
+
+FriendsList.propTypes = {
+  history: PropTypes.object,
+  location: PropTypes.object,
+  match: PropTypes.object,
 };
 
 export default FriendsList;

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { useHistory, useLocation, Switch, Route } from 'react-router-dom';
-import { Layout, Menu, Dropdown, Avatar, Space, Button } from 'antd';
+import { EsLayout, EsMenu, EsDropdown, EsAvatar, EsSpace, EsButton } from 'components';
 import {
   TeamOutlined,
   UnorderedListOutlined,
@@ -9,8 +10,10 @@ import {
   UserOutlined,
   ApartmentOutlined,
   MenuOutlined,
-} from '@ant-design/icons';
-import { getUserProfile } from 'helpers/storageHandlers';
+  ProfileOutlined,
+} from 'components/icons';
+import { useSelector } from 'react-redux';
+import { selectCurrentUser } from 'apis/user/user.selectors';
 import { store } from 'configurations/redux/Store';
 import { logoutAction } from 'apis/auth/auth.actions';
 import { getFriendsAction } from 'apis/friends/friends.actions';
@@ -22,15 +25,17 @@ import ExpensesList from 'modules/pages/expenses';
 import ExpenseDetail from 'modules/pages/expense-detail';
 import AddExpense from 'modules/pages/add-expense';
 import GroupsPage from 'modules/pages/groups';
+import UsersPage from 'modules/pages/users';
+import ProfilePage from 'modules/pages/profile';
 import './MainLayout.scss';
 
-const { Header, Sider, Content } = Layout;
+const { Header, Sider, Content } = EsLayout;
 const MOBILE_BREAKPOINT = 992;
 
 const MainLayout = () => {
   const history = useHistory();
   const location = useLocation();
-  const [user, setUser] = useState(getUserProfile());
+  const user = useSelector(selectCurrentUser);
   const [collapsed, setCollapsed] = useState(() => typeof window !== 'undefined' && window.innerWidth < MOBILE_BREAKPOINT);
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth < MOBILE_BREAKPOINT);
 
@@ -58,20 +63,27 @@ const MainLayout = () => {
   const handleLogout = () => {
     store.dispatch(logoutAction());
     history.push('/login');
-    window.location.reload();
   };
 
-  const menuItems = [
+  const baseMenuItems = [
     { key: '/app', path: '/app', icon: <UnorderedListOutlined />, label: 'Dashboard' },
     { key: '/app/expenses', path: '/app/expenses', icon: <UnorderedListOutlined />, label: 'Expenses' },
     { key: '/app/add-expense', path: '/app/add-expense', icon: <PlusCircleOutlined />, label: 'Add Expense' },
     { key: '/app/friends', path: '/app/friends', icon: <TeamOutlined />, label: 'Friends' },
     { key: '/app/groups', path: '/app/groups', icon: <ApartmentOutlined />, label: 'Groups' },
   ];
+  const adminMenuItems = user?.role === 'admin' ? [{ key: '/app/users', path: '/app/users', icon: <UserOutlined />, label: 'Users' }] : [];
+  const menuItems = [...baseMenuItems, ...adminMenuItems];
 
   const userMenu = (
-    <Menu
+    <EsMenu
       items={[
+        {
+          key: 'profile',
+          icon: <ProfileOutlined />,
+          label: 'View profile',
+          onClick: () => history.push('/app/profile'),
+        },
         {
           key: 'logout',
           icon: <LogoutOutlined />,
@@ -93,7 +105,7 @@ const MainLayout = () => {
   };
 
   return (
-    <Layout className="app-layout">
+    <EsLayout className="app-layout">
       {/* Mobile sidebar backdrop */}
       {isMobile && !collapsed && (
         <div
@@ -115,7 +127,7 @@ const MainLayout = () => {
         trigger={null}
       >
         <div className="logo">Expense</div>
-        <Menu
+        <EsMenu
           theme="dark"
           selectedKeys={[selectedKey]}
           mode="inline"
@@ -127,10 +139,10 @@ const MainLayout = () => {
           }))}
         />
       </Sider>
-      <Layout className="app-main-wrap">
+      <EsLayout className="app-main-wrap">
         <Header className="app-header">
           <div className="header-left">
-            <Button
+            <EsButton
               type="text"
               className="hamburger-btn"
               icon={<MenuOutlined />}
@@ -139,12 +151,12 @@ const MainLayout = () => {
             />
             <span className="header-title">Expense Management</span>
           </div>
-          <Dropdown overlay={userMenu} placement="bottomRight">
-            <Space className="user-dropdown" style={{ cursor: 'pointer' }}>
-              <Avatar icon={<UserOutlined />} src={null} />
+          <EsDropdown overlay={userMenu} placement="bottomRight">
+            <EsSpace className="user-dropdown" style={{ cursor: 'pointer' }}>
+              <EsAvatar icon={<UserOutlined />} src={null} />
               <span className="user-name">{user?.name || 'User'}</span>
-            </Space>
-          </Dropdown>
+            </EsSpace>
+          </EsDropdown>
         </Header>
         <Content className="app-content">
           <Switch>
@@ -154,12 +166,20 @@ const MainLayout = () => {
             <Route exact path="/app/add-expense" component={AddExpense} />
             <Route exact path="/app/friends" component={FriendsList} />
             <Route exact path="/app/groups" component={GroupsPage} />
+            <Route exact path="/app/users" component={UsersPage} />
+            <Route exact path="/app/profile" component={ProfilePage} />
             <Route path="/app" component={Dashboard} />
           </Switch>
         </Content>
-      </Layout>
-    </Layout>
+      </EsLayout>
+    </EsLayout>
   );
+};
+
+MainLayout.propTypes = {
+  history: PropTypes.object,
+  location: PropTypes.object,
+  match: PropTypes.object,
 };
 
 export default MainLayout;

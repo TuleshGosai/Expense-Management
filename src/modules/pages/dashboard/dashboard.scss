@@ -9,6 +9,22 @@
     margin-bottom: 0;
   }
 
+  .dashboard-charts-row {
+    margin-top: 16px;
+
+    @media (min-width: 768px) {
+      margin-top: 24px;
+    }
+  }
+
+  .dashboard-chart-card {
+    .recharts-default-tooltip {
+      padding: 8px 12px;
+      font-size: 12px;
+      border-radius: 4px;
+    }
+  }
+
   .dashboard-row-2 {
     margin-top: 16px;
 
