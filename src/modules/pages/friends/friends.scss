@@ -1,0 +1,30 @@
+.friends-page {
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .page-title {
+    margin: 0 !important;
+  }
+
+  .balance-cell {
+    .you-owe { color: #ff4d4f; margin-left: 8px; }
+    .they-owe { color: #52c41a; margin-left: 8px; }
+    .settled { color: #999; margin-left: 8px; }
+  }
+
+  .simplified-arrow { color: #999; margin: 0 4px; }
+  .simplified-amount { font-weight: 600; color: #1890ff; }
+}
+
+@media (max-width: 768px) {
+  .friends-page .balance-cell {
+    margin-top: 8px;
+    display: block;
+  }
+}

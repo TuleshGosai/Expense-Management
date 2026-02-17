@@ -1,0 +1,117 @@
+.app-layout {
+  min-height: 100vh;
+  position: relative;
+
+  .app-sider {
+    .logo {
+      height: 64px;
+      line-height: 64px;
+      text-align: center;
+      color: #fff;
+      font-weight: 600;
+      font-size: 18px;
+    }
+
+    // Mobile: overlay drawer
+    &.app-sider-open-mobile {
+      position: fixed !important;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      z-index: 1001;
+      height: 100vh !important;
+    }
+  }
+
+  .sider-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 1000;
+    transition: opacity 0.2s;
+  }
+
+  .app-main-wrap {
+    min-width: 0; // allow shrinking for flex
+  }
+
+  .app-header {
+    background: #fff;
+    padding: 0 16px 0 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    flex-shrink: 0;
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .hamburger-btn {
+      display: none;
+      font-size: 20px;
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      color: rgba(0, 0, 0, 0.85);
+      flex-shrink: 0;
+    }
+
+    .header-title {
+      font-size: 18px;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .user-dropdown .user-name {
+      margin-left: 8px;
+      font-size: 14px;
+    }
+  }
+
+  .app-content {
+    padding: 24px;
+    background: #f0f2f5;
+    min-height: calc(100vh - 64px);
+    overflow-x: hidden;
+  }
+}
+
+// Mobile: show hamburger, compact header
+@media (max-width: 991px) {
+  .app-layout {
+    .hamburger-btn {
+      display: inline-flex !important;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .header-title {
+      font-size: 16px;
+    }
+
+    .app-content {
+      padding: 16px;
+    }
+
+    .user-dropdown .user-name {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .app-layout .app-header {
+    padding: 0 12px 0 4px;
+
+    .header-title {
+      font-size: 14px;
+    }
+  }
+}

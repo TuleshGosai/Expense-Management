@@ -1,0 +1,35 @@
+.groups-page {
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .page-title {
+    margin: 0 !important;
+  }
+
+  .group-detail {
+    padding-left: 0;
+    margin-top: 8px;
+
+    h4 {
+      font-size: 13px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .ant-list-item {
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      border-radius: 4px;
+
+      &:hover {
+        background-color: rgba(24, 144, 255, 0.08);
+      }
+    }
+  }
+}

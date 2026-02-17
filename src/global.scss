@@ -1,0 +1,140 @@
+html, body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
+  width: 100%;
+  min-height: 100%;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.globalHeight {
+  height: 100%;
+}
+
+.app-content {
+  padding: 24px;
+  background: #f0f2f5;
+  min-height: calc(100vh - 64px);
+}
+
+@media (max-width: 991px) {
+  .app-content {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 576px) {
+  .app-content {
+    padding: 12px;
+  }
+}
+
+.page-header {
+  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+
+  @media (max-width: 576px) {
+    margin-bottom: 16px;
+  }
+}
+
+.page-title {
+  margin: 0 !important;
+  font-weight: 600;
+  font-size: 1.5rem;
+
+  @media (max-width: 576px) {
+    font-size: 1.25rem;
+  }
+}
+
+.card-balance-positive { color: #52c41a; }
+.card-balance-negative { color: #ff4d4f; }
+
+/* Hover effects for clickable items */
+.ant-list-item[style*="cursor: pointer"],
+.ant-list-item.clickable {
+  transition: background-color 0.2s ease;
+  &:hover {
+    background-color: rgba(24, 144, 255, 0.06);
+  }
+}
+
+.ant-card.clickable-card,
+.ant-card[style*="cursor: pointer"] {
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  &:hover {
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    border-color: #91d5ff;
+  }
+}
+
+.ant-btn.ant-btn-link {
+  transition: opacity 0.2s ease;
+  &:hover {
+    opacity: 0.85;
+  }
+}
+
+.ant-btn.ant-btn-text:hover {
+  background-color: rgba(24, 144, 255, 0.06);
+}
+
+/* Splash screen */
+.app-splash {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1890ff 0%, #096dd9 100%);
+  z-index: 9999;
+}
+
+.app-splash-content {
+  text-align: center;
+  color: #fff;
+  padding: 24px;
+}
+
+.app-splash-title {
+  margin: 0 0 8px;
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.app-splash-subtitle {
+  margin: 0 0 24px;
+  font-size: 0.95rem;
+  opacity: 0.95;
+}
+
+.app-splash-spinner {
+  margin-top: 8px;
+}
+
+.app-splash-spinner .ant-spin-dot-item {
+  background-color: #fff;
+}
+
+.app-main-fade {
+  animation: app-main-fade-in 0.35s ease-out;
+}
+
+@keyframes app-main-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

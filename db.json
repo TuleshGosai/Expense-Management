@@ -1,0 +1,93 @@
+{
+  "users": [
+    {
+      "id": "user-1",
+      "email": "demo@expense.com",
+      "password": "demo123",
+      "name": "Demo User"
+    }
+  ],
+  "friends": [
+    {
+      "name": "Chirag",
+      "email": "chirag@gmail.com",
+      "userId": "user-1",
+      "id": 1
+    },
+    {
+      "name": "abhishek",
+      "email": "abhi@gmail.com",
+      "userId": "user-1",
+      "id": 2
+    }
+  ],
+  "expenses": [
+    {
+      "userId": "user-1",
+      "paidBy": "user-1",
+      "amount": 1080,
+      "description": "dinner",
+      "splitType": "equal",
+      "contributions": [
+        {
+          "friendId": 1,
+          "amount": 1080
+        }
+      ],
+      "createdAt": "2026-02-16T13:33:47.231Z",
+      "id": 1
+    },
+    {
+      "userId": "user-1",
+      "paidBy": 2,
+      "amount": 2200,
+      "description": "lunch",
+      "splitType": "equal",
+      "contributions": [
+        {
+          "friendId": "user-1",
+          "amount": 733.3333333333334
+        },
+        {
+          "friendId": 1,
+          "amount": 733.3333333333334
+        },
+        {
+          "friendId": 2,
+          "amount": 733.3333333333334
+        }
+      ],
+      "createdAt": "2026-02-16T13:34:47.818Z",
+      "id": 2
+    },
+    {
+      "userId": "user-1",
+      "paidBy": "user-1",
+      "amount": 5000,
+      "description": "baroda trip",
+      "splitType": "equal",
+      "contributions": [
+        {
+          "friendId": 1,
+          "amount": 2500
+        },
+        {
+          "friendId": 2,
+          "amount": 2500
+        }
+      ],
+      "createdAt": "2026-02-16T13:37:03.249Z",
+      "id": 3
+    }
+  ],
+  "groups": [
+    {
+      "name": "trip",
+      "userId": "user-1",
+      "memberIds": [
+        1
+      ],
+      "id": 2
+    }
+  ]
+}
